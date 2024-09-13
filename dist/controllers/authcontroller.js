@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signup = void 0;
+exports.login = exports.signup = void 0;
 const app_1 = require("../app");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const SECRET_KEY = process.env.SECRET_KEY;
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, email, password } = req.body;
@@ -41,4 +46,35 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.signup = signup;
-// module.exports={signup}
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    try {
+        const user = yield app_1.prisma.user.findUnique({
+            where: {
+                email
+            }
+        });
+        if (!user) {
+            return res.status(404).json({
+                msg: "user not found"
+            });
+        }
+        const ispasswordvalid = (user.password === password);
+        if (!ispasswordvalid) {
+            return res.status(404).json({ msg: "invalid password" });
+        }
+        const jwttoken = jsonwebtoken_1.default.sign({ userid: user.id, email: email }, SECRET_KEY, { expiresIn: '1h' });
+        return res.status(200).json({
+            msg: "token created",
+            jwttoken,
+            email
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            msg: "internal server"
+        });
+    }
+});
+exports.login = login;
