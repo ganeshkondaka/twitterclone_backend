@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.prisma = void 0;
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const client_1 = require("@prisma/client");
+const authroute_1 = __importDefault(require("./routes/authroute"));
+const productroute_1 = __importDefault(require("./routes/productroute"));
+const prisma = new client_1.PrismaClient();
+exports.prisma = prisma;
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+const port = 3000;
+app.use("/api/auth", authroute_1.default);
+app.use("/api/prod", productroute_1.default);
+app.listen(port, () => { console.log(`app is running at port ${port}`); });
