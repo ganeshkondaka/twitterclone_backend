@@ -43,6 +43,10 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            msg: "internal server error",
+        });
     }
 });
 exports.signup = signup;

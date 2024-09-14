@@ -1,8 +1,7 @@
 import { prisma } from "../app";
 import { Request, Response } from "express";
-
 import jwt from "jsonwebtoken"
-import axios from "axios"
+
 const SECRET_KEY = process.env.SECRET_KEY as string
 export const signup = async (req: Request, res: Response) => {
     try {
@@ -30,7 +29,10 @@ export const signup = async (req: Request, res: Response) => {
             data: user
         })
     } catch (error) {
-
+        console.log(error)
+        return res.status(500).json({
+            msg: "internal server error",
+        })
     }
 }
 
