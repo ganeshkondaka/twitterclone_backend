@@ -16,13 +16,12 @@ exports.isauthenticated = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const isauthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const auth = req.headers["authorization"];
-    console.log("auth is :", auth);
+    // console.log("auth is :",auth)
     if (!auth) {
         return res.status(403).json({
             msg: "unauherized, token in required"
         });
     }
-    console.log(process.env.SECRET_KEY);
     try {
         const decoded = jsonwebtoken_1.default.verify(auth, process.env.SECRET_KEY);
         console.log("decoded is :", decoded);

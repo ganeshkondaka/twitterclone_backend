@@ -7,14 +7,13 @@ interface AuthenticatedRequest extends Request {
 
 export const isauthenticated = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const auth = req.headers["authorization"]
-    console.log("auth is :",auth)
+    // console.log("auth is :",auth)
     if (!auth) {
         return res.status(403).json({
             msg: "unauherized, token in required"
         })
     }
 
-    console.log(process.env.SECRET_KEY)
     
     try {
         const decoded = jwt.verify(auth, process.env.SECRET_KEY as string)
