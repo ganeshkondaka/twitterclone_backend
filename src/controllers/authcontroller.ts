@@ -56,12 +56,14 @@ export const login = async (req: Request, res: Response) => {
             )
         }
         const jwttoken = jwt.sign(
-            { userid: user.id, email: email }, SECRET_KEY, { expiresIn: '1h' }
+            { userid: user.id, email: email }, SECRET_KEY, { expiresIn: '24h' }
         )
         return res.status(200).json({
             msg: "token created",
             jwttoken,
-            email
+            name:user.username,
+            email,
+            success:true
             
         })
     } catch (error) {

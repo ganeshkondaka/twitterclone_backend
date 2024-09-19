@@ -63,15 +63,18 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 msg: "user not found"
             });
         }
+        console.log("the user is@@@@@@ :", user);
         const ispasswordvalid = (user.password === password);
         if (!ispasswordvalid) {
             return res.status(404).json({ msg: "invalid password" });
         }
-        const jwttoken = jsonwebtoken_1.default.sign({ userid: user.id, email: email }, SECRET_KEY, { expiresIn: '1h' });
+        const jwttoken = jsonwebtoken_1.default.sign({ userid: user.id, email: email }, SECRET_KEY, { expiresIn: '24h' });
         return res.status(200).json({
             msg: "token created",
             jwttoken,
-            email
+            name: user.username,
+            email,
+            success: true
         });
     }
     catch (error) {
