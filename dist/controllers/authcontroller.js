@@ -63,7 +63,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 msg: "user not found"
             });
         }
-        console.log("the user is@@@@@@ :", user);
         const ispasswordvalid = (user.password === password);
         if (!ispasswordvalid) {
             return res.status(404).json({ msg: "invalid password" });

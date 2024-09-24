@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken"
 
 const SECRET_KEY = process.env.SECRET_KEY as string
+
 export const signup = async (req: Request, res: Response) => {
     try {
         const { username, email, password } = req.body;
